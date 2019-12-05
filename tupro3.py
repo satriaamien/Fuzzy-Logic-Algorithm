@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+# import matplotplib.pyplot as plt
 def getfile():
 	csv=[]
 	file=pd.read_csv("influencers.csv",header=None)
@@ -12,6 +12,7 @@ def getfile():
 	return csv
 
 #bagus cukup buruk
+# followerCount
 def flwjelek(x): 
 	#8.000 - 16.000  
 	if (x<=8000):
@@ -37,6 +38,7 @@ def flwbagus(x):
 	elif(x>=50000):
 		return 1
 
+# engagementRate
 def engjelek(x):
 	if (x<=0.8):
 		return 1
@@ -79,7 +81,7 @@ def inference(fb,fm,fg,eb,em,eg):
 
 def sugeno(acc,con,rej):
 	atas = (acc*100)+(con*50)+(rej*30)
-	bawah = acc+con+rej+0.000000000000000000000000000000000000000001
+	bawah = acc+con+rej+0.0000000000000000000000000000000001
 	return atas/bawah
 
 #main
@@ -94,9 +96,7 @@ for x in range(len(csv)):
 	engmed= engcukup(csv[x][2])
 	enggood= engbagus(csv[x][2])
 	getinf= inference(flwbad,flwmed,flwgood,engbad,engmed,enggood)
-	acc = getinf[0] 
-	con = getinf[1]
-	rej = getinf[2]
+	acc,con,rej = getinf[0],getinf[1],getinf[2] 
 	hasildef = sugeno(acc, con, rej)
 	getsugeno.append([hasildef,x+1])
 print("20 TOP TERBAIK")
@@ -106,4 +106,3 @@ sugeno.insert(0,['top','id'])
 getsugeno=pd.DataFrame(np.array(sugeno))
 print getsugeno
 getsugeno.to_csv('chosen.csv', sep=',', index=False, header= None)
-
